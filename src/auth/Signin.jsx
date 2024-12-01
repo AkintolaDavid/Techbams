@@ -61,9 +61,9 @@ export default function Signin() {
         className="w-6 h-6 sm:w-8 sm:h-8 text-black absolute top-10 left-10 cursor-pointer"
         onClick={() => navigate(-1)}
       />
-      <div className="bg-white shadow-md rounded-md p-8 w-full max-w-md">
+      <div className="bg-white shadow-md rounded-md p-8 w-[90%] sm:w-full max-w-md">
         <div className="flex flex-col items-center">
-          <img src={logo} alt="Logo" className="w-24 mb-6" />
+          <img src={logo} alt="Logo" className="w-20 sm:w-24 mb-6" />
           <h2 className="text-2xl font-semibold text-[#0093DD] mb-4">Login</h2>
         </div>
         <form className="space-y-4">

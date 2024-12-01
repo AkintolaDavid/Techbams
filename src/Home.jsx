@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "./Sidebar"; // Import Sidebar Component
 import { Link, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-import allCourses from "./allCourses";
+import coursesData from "./mockCourses";
 import logo from "./assets/logo2.png";
 import { MdOutlineMessage } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
@@ -14,8 +14,8 @@ const Home = () => {
   const toast = useToast();
   const filteredCourses =
     selectedCategory === "All"
-      ? allCourses
-      : allCourses.filter((course) => course.category === selectedCategory);
+      ? coursesData
+      : coursesData.filter((course) => course.category === selectedCategory);
   const handleLogout = () => {
     // Remove the token from localStorage to log out the user
     localStorage.removeItem("token");
@@ -51,7 +51,7 @@ const Home = () => {
             <img
               src={logo}
               alt="logo"
-              className="h-[40px] md:h-[70px] flex md:hidden"
+              className="h-[50px] md:h-[70px] flex md:hidden"
             />
             <span className="text-base sm:text-lg font-semibold text-white md:text-gray-700">
               Welcome, dave

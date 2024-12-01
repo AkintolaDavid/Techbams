@@ -151,6 +151,7 @@ export default function Landing() {
             {/* Slide 1 */}
             <SwiperSlide>
               <div>
+                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
                 <img
                   alt="Slide 1"
                   src={image1}
@@ -162,6 +163,7 @@ export default function Landing() {
             {/* Slide 2 */}
             <SwiperSlide>
               <div>
+                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
                 <img
                   alt="Slide 2"
                   src={image2}

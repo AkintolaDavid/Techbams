@@ -87,9 +87,11 @@ const CoursePage = () => {
           Last updated: 11-01-2023
         </p>
         <p className="text-gray-400  text-sm md:text-base">Language: English</p>
-        <button className="bg-blue-500 w-60 sm:w-80 rounded-md h-10 sm:h-12 font-medium mt-5">
-          Proceed to course
-        </button>
+        <Link to={`/course/${id}/sections/${id}`}>
+          <button className="bg-blue-500 w-60 sm:w-80 rounded-md h-10 sm:h-12 font-medium mt-5">
+            Proceed to course sections
+          </button>{" "}
+        </Link>
       </div>
 
       {/* Course Content */}

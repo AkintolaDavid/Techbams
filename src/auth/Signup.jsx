@@ -77,7 +77,6 @@ export default function Signup() {
         position: "top-right",
         duration: 4000,
         isClosable: true,
-        position: "top-right",
       });
       return;
     }
@@ -90,7 +89,6 @@ export default function Signup() {
         position: "top-right",
         duration: 4000,
         isClosable: true,
-        position: "top-right",
       });
       return;
     }
@@ -118,7 +116,6 @@ export default function Signup() {
           position: "top-right",
           duration: 4000,
           isClosable: true,
-          position: "top-right",
         });
         navigate("/verifyOtp", { state: { email } });
       } else {
@@ -129,7 +126,6 @@ export default function Signup() {
           position: "top-right",
           duration: 4000,
           isClosable: true,
-          position: "top-right",
         });
       }
     } catch (error) {
@@ -138,7 +134,7 @@ export default function Signup() {
         title: error.response.data.message,
 
         status: "error",
-        position: "top-right",
+
         duration: 4000,
         isClosable: true,
         position: "top-right",
@@ -151,9 +147,9 @@ export default function Signup() {
         className="w-6 h-6 sm:w-8 sm:h-8 text-black absolute top-10 left-10 cursor-pointer"
         onClick={() => navigate(-1)}
       />
-      <div className="bg-white shadow-md rounded-md p-8 w-full max-w-md">
+      <div className="bg-white shadow-md rounded-md p-8  w-[90%] sm:w-full  max-w-md">
         <div className="flex flex-col items-center">
-          <img src={logo} alt="Logo" className="w-24 mb-6" />
+          <img src={logo} alt="Logo" className="w-20 sm:w-24 mb-6" />
           <h2 className="text-2xl font-semibold text-[#0093DD] mb-4">
             Sign Up
           </h2>

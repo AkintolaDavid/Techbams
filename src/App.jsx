@@ -10,6 +10,8 @@ import ResetPassword from "./auth/Resetpassword";
 import ProtectedRoute from "./ProtectedRoute";
 import Home from "./Home";
 import CoursePage from "./CoursePage";
+import SectionPage from "./SectionPage";
+import SectionDetails from "./SectionDetails";
 
 function App() {
   return (
@@ -41,6 +43,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <CoursePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/course/:id/sections/:sectionIndex"
+            element={
+              <ProtectedRoute>
+                <SectionPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/course/:id/sections/:sectionIndex/details/:detailsIndex"
+            element={
+              <ProtectedRoute>
+                <SectionDetails />
               </ProtectedRoute>
             }
           />
