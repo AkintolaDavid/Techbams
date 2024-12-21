@@ -12,7 +12,10 @@ import Home from "./Home";
 import CoursePage from "./CoursePage";
 import SectionPage from "./SectionPage";
 import SectionDetails from "./SectionDetails";
-
+import AdminPage from "./Adminpage";
+import SigninAdmin from "./auth/SigninAdmin";
+import ProtectedAdminRoute from "./ProtectedAdminRoute";
+import ContactUsElite from "./Contact";
 function App() {
   return (
     <BrowserRouter>
@@ -28,13 +31,21 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/verify-otp" element={<PasswordVerifyOTP />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-
+          <Route path="/contact" element={<ContactUsElite />} />
           {/* Protected routes */}
           <Route
             path="/home"
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/adminpage"
+            element={
+              <ProtectedRoute>
+                <AdminPage />
               </ProtectedRoute>
             }
           />
@@ -62,6 +73,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/*"
+            element={
+              <ProtectedAdminRoute>
+                <AdminPage />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route path="/signinadmin" element={<SigninAdmin />} />
         </Routes>
       </ChakraProvider>
     </BrowserRouter>

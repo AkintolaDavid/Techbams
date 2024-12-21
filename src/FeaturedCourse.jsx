@@ -10,6 +10,7 @@ import { IoIosStar, IoIosStarHalf } from "react-icons/io";
 import { Avatar } from "@chakra-ui/react";
 import image from "./assets/laptop.webp";
 import AboutTechbams from "./AboutTechbams";
+import { Link } from "react-router-dom";
 
 export default function FeaturedCourse() {
   return (
@@ -19,9 +20,9 @@ export default function FeaturedCourse() {
           <span className="text-2xl sm:text-3xl font-semibold">
             Featured Courses
           </span>
-          <button className="text-xs sm:text-sm border-[2px] font-medium text-black border-blue-400 py-1 sm:py-2 px-5 sm:px-8">
+          {/* <button className="text-xs sm:text-sm border-[2px] font-medium text-black border-blue-400 py-1 sm:py-2 px-5 sm:px-8">
             VIEW ALL
-          </button>
+          </button> */}
         </div>
         <div className="max-w-screen-lg w-full">
           <Swiper
@@ -83,9 +84,12 @@ export default function FeaturedCourse() {
                       <div className="w-full py-2 bg-[#F8F8F8] text-center rounded-md">
                         Free
                       </div>
-                      <button className="w-full py-3 mt-2 bg-blue-500 text-white font-medium text-lg rounded-md">
-                        ENROLL NOW!
-                      </button>
+                      <Link to="/signin">
+                        {" "}
+                        <button className="w-full py-3 mt-2 bg-blue-500 text-white font-medium text-lg rounded-md">
+                          ENROLL NOW!
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>{" "}

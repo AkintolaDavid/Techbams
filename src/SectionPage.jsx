@@ -1,22 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import coursesData from "./mockCourses";
 import { FaChevronRight, FaCheckCircle } from "react-icons/fa";
+import axios from "axios";
 
 const SectionPage = () => {
   const { id } = useParams(); // Get course ID from URL
-  const course = coursesData.find((course) => course.id === parseInt(id)); // Find the course
+  const [course, setCourse] = useState(null);
+  const [passedSections, setPassedSections] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+      .get(`https://techbams-server.onrender.com/api/courses/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) // Make sure to have an API route for fetching courses by ID
+      .then((response) => {
+        setCourse(response.data); // Set the course data to the state
+        setPassedSections(new Array(response.data.sections.length).fill(false)); // Initialize passedSections array
+      })
+      .catch((error) => {
+        console.error("Error fetching course data:", error);
+      });
+  }, [id]);
 
   if (!course) {
-    return <p className="text-center text-red-500">Course not found!</p>;
+    return <p className="text-center text-red-500">Cousrse not found!</p>;
   }
 
   const { title, sections } = course;
-
-  // This is where we can track whether the section is passed.
-  const [passedSections, setPassedSections] = useState(
-    new Array(sections.length).fill(false)
-  );
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -58,9 +71,9 @@ const SectionPage = () => {
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-xl font-bold">{section.title}</h3>
+                  <h3 className="text-xl font-bold">{section.sectiontitle}</h3>
                   <p className="text-sm text-gray-600 mb-2">
-                    {section.description || "No description provided."}
+                    {section.sectiondescription || "No description provided."}
                   </p>
                 </div>
                 <FaCheckCircle

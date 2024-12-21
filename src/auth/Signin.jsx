@@ -25,10 +25,13 @@ export default function Signin() {
           password,
         }
       );
-
       if (response.status === 200) {
         // Save token and redirect
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem(
+          "userName",
+          response.data.user.fullName.split(" ")[0]
+        );
         toast({
           title: "Login successful",
           description: "You are now logged in.",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   FaStar,
@@ -7,7 +7,8 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
-import coursesData from "./mockCourses";
+import axios from "axios"; // Import axios
+
 const whatYouWillLearn = [
   "Introduction to React",
   "State and Props",
@@ -21,10 +22,45 @@ const whatYouWillLearn = [
   "Advanced Topics",
   "Building a React Project",
 ];
+
 const CoursePage = () => {
   const { id } = useParams(); // Get course ID from URL
-  const course = coursesData.find((course) => course.id === parseInt(id)); // Find the course
-  console.log(course);
+  const [course, setCourse] = useState(null);
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
+
+  useEffect(() => {
+    // Fetch course data from the backend
+    const fetchCourseData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `https://techbams-server.onrender.com/api/courses/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ); // Replace with your backend endpoint
+        setCourse(response.data); // Set course data
+        setLoading(false); // Set loading to false
+      } catch (err) {
+        setError("Failed to load course data"); // Set error message
+        setLoading(false);
+      }
+    };
+
+    fetchCourseData();
+  }, [id]);
+
+  if (loading) {
+    return <p className="text-center text-blue-500">Loading...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center text-red-500">{error}</p>;
+  }
+
   if (!course) {
     return <p className="text-center text-red-500">Course not found!</p>;
   }
@@ -66,13 +102,13 @@ const CoursePage = () => {
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{title}</h1>
         <p className="text-base md:text-lg">{description}</p>
         <div className="flex items-center mb-4">
-          <div className="flex items-center gap-1  text-sm md:text-base">
+          <div className="flex items-center gap-1 text-sm md:text-base">
             {renderStars()}
           </div>
-          <span className="text-yellow-500 ml-2  text-sm md:text-base">
+          <span className="text-yellow-500 ml-2 text-sm md:text-base">
             {rating.toFixed(1)}
           </span>
-          <span className="text-gray-400 ml-2  text-sm md:text-base">
+          <span className="text-gray-400 ml-2 text-sm md:text-base">
             (20 ratings)
           </span>
           <span className="mx-2 hidden md:flex">|</span>
@@ -80,13 +116,13 @@ const CoursePage = () => {
             32 students enrolled
           </span>
         </div>
-        <p className="text-gray-400  text-sm md:text-base">
-          Created by <span className="text-blue-500">John Doe</span>
+        <p className="text-gray-400 text-sm md:text-base">
+          Created by <span className="text-blue-500">{lecturer}</span>
         </p>
-        <p className="text-gray-400  text-sm md:text-base">
+        <p className="text-gray-400 text-sm md:text-base">
           Last updated: 11-01-2023
         </p>
-        <p className="text-gray-400  text-sm md:text-base">Language: English</p>
+        <p className="text-gray-400 text-sm md:text-base">Language: English</p>
         <Link to={`/course/${id}/sections/${id}`}>
           <button className="bg-blue-500 w-60 sm:w-80 rounded-md h-10 sm:h-12 font-medium mt-5">
             Proceed to course sections
@@ -115,7 +151,7 @@ const CoursePage = () => {
           <div className="mb-6">
             <video className="w-full h-auto rounded-lg shadow-lg" controls>
               <source
-                src="https://via.placeholder.com/640x360"
+                src={course.videoUrl || "https://via.placeholder.com/640x360"}
                 type="video/mp4"
               />
               Your browser does not support the video tag.

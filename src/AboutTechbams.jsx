@@ -5,7 +5,7 @@ export default function AboutTechbams() {
   return (
     <>
       <div className="flex items-center justify-center bg-[#f8f8f8] px-4 sm:px-10">
-        <div className="h-auto lg:h-[700px] w-[1000px] gap-5 md:gap-0 flex lg:flex-row flex-col justify-center items-center mx-2 sm:mx-10 md:mx-0">
+        <div className="h-auto lg:h-[700px] w-[1000px] gap-5 lg:gap-0 flex lg:flex-row flex-col justify-center items-center mx-2 sm:mx-10 md:mx-0">
           <div className="flex flex-col text-center lg:text-left w-[100%] md:w-[500px]  gap-6 pr-0 md:pr-10 lg:pr-20">
             <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold">
               About Techbams
@@ -54,7 +54,7 @@ export default function AboutTechbams() {
             <img
               src={image}
               at="img "
-              className="h-[220px] md:h-[380px] w-[500px]"
+              className="h-[250px] sm:h-[300px] md:h-[380px] w-[500px] rounded-md"
             />
           </div>
         </div>

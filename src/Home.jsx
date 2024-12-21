@@ -1,21 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar"; // Import Sidebar Component
 import { Link, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-import coursesData from "./mockCourses";
+import axios from "axios"; // Import Axios
 import logo from "./assets/logo2.png";
 import { MdOutlineMessage } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { TbLogout } from "react-icons/tb";
 import { useToast } from "@chakra-ui/react";
+
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [courses, setCourses] = useState([]);
+  const [title, settitle] = useState([]);
   const navigate = useNavigate();
   const toast = useToast();
+  const userName = localStorage.getItem("userName");
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          "https://techbams-server.onrender.com/api/courses",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ); // API endpoint
+        setCourses(response.data);
+        const titles = response.data.map((course) => course.title); // Extract titles
+        settitle(titles); // Set state with titles
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load courses.",
+          position: "top-right",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    };
+
+    fetchCourses();
+  }, [toast]);
+
   const filteredCourses =
     selectedCategory === "All"
-      ? coursesData
-      : coursesData.filter((course) => course.category === selectedCategory);
+      ? courses
+      : courses.filter((course) => course.title === selectedCategory);
+
   const handleLogout = () => {
     // Remove the token from localStorage to log out the user
     localStorage.removeItem("token");
@@ -33,6 +70,7 @@ const Home = () => {
     // Redirect to the login page after logging out
     navigate("/signin");
   };
+
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
@@ -54,11 +92,16 @@ const Home = () => {
               className="h-[50px] md:h-[70px] flex md:hidden"
             />
             <span className="text-base sm:text-lg font-semibold text-white md:text-gray-700">
-              Welcome, dave
+              Welcome, {userName}
             </span>
           </div>
           <div className="flex items-center space-x-4 sm:space-x-5 md:space-x-8">
-            <MdOutlineMessage className="text-xl sm:text-2xl text-white md:text-gray-500" />
+            <MdOutlineMessage
+              className="text-xl sm:text-2xl text-white md:text-gray-500"
+              onClick={() => {
+                navigate("/contact");
+              }}
+            />
             <IoNotifications className="text-xl sm:text-2xl text-white md:text-gray-500" />
             <button
               onClick={handleLogout}
@@ -78,7 +121,8 @@ const Home = () => {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full bg-white p-3 rounded-md border border-gray-300"
             >
-              {["All", "Web Development", "Data Science"].map((category) => (
+              <option>All</option>
+              {title.map((category) => (
                 <option key={category} value={category}>
                   {category}
                 </option>
@@ -90,13 +134,13 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCourses.map((course) => (
               <div
-                key={course.id}
+                key={course._id} // Use _id from MongoDB
                 className="bg-white p-6 shadow-lg rounded-lg hover:shadow-xl transition-transform transform hover:scale-105"
               >
                 <img
                   src={course.img}
                   alt={course.title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
+                  className="w-full h-56 object-contain rounded-lg mb-4"
                 />
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
                   {course.title}
@@ -118,7 +162,7 @@ const Home = () => {
                 </div>
                 <p className="text-gray-700 mb-4">{course.description}</p>
                 <Link
-                  to={`/course/${course.id}`}
+                  to={`/course/${course._id}`} // Use _id for the link
                   className="block bg-blue-400 text-white text-center py-2 rounded-md hover:bg-blue-500 transition"
                 >
                   Enroll Now
